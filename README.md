@@ -1,2 +1,2 @@
 # BombermanIO
-Github project hosting our Bomberman's app
+Github project hosting our Bomberman's app frontend
