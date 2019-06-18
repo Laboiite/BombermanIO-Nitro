@@ -9,12 +9,14 @@ import { MaterialModule } from "./modules/material.module";
 import { TranslateModule } from "./modules/translate.module";
 import { BaseModule } from "./modules/base.module";
 import { AppHeaderComponent } from "./components/app-header/app-header.component";
+import { GameComponent } from "./pages/game/game.component";
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		HomeComponent,
-		AppHeaderComponent
+		AppHeaderComponent,
+		GameComponent
 	],
 	imports: [
 		BrowserModule,
