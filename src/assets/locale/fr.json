@@ -1,0 +1,32 @@
+{
+	"COMMON" : {
+		"WELCOME": "Bienvenue sur BombermanIO !",
+		"ACTIONS": "Actions",
+		"EXAMPLE": "Exemple du texte en français pour traduction",
+		"CANCEL": "Annuler",
+		"DATE": "Date",
+		"EDIT": "Modifier",
+		"FINISH": "Terminer",
+		"QUIT": "Quitter",
+		"DELETE": "Supprimer",
+		"HOME": "Accueil",
+		"LABEL": "Label",
+		"NAME": "Nom",
+		"NO": "Non",
+		"PRIVATE": "Privé",
+		"PUBLIC": "Public",
+		"SEARCH": "Rechercher",
+		"YES": "Oui",
+		"YEAR": "Année",
+		"BACK": "Retour",
+		"NONE": "Aucun",
+		"LOGOUT": "Déconnexion",
+		"SAVE": "Enregistrer",
+		"FRENCH": "Français",
+		"ENGLISH": "Anglais"
+	},
+	"HOME" : {
+		"NICKNAME": "Entrez votre pseudo",
+		"NEW_GAME": "Nouvelle partie"
+	}
+}
