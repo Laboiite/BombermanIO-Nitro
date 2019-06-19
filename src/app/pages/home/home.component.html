@@ -1,7 +1,22 @@
-<div style="text-align:center">
+<form [formGroup]="form">
+	<div style="text-align:center">
 
-	<mat-form-field>
-		<input matInput placeholder='{{ "HOME.NICKNAME" | translate}}'>
-	</mat-form-field>
-	<button mat-raised-button (click)="enterNewGame()">{{"HOME.NEW_GAME" | translate}}</button>
-</div>
+		<mat-form-field>
+			<input matInput [placeholder]="'HOME.NICKNAME' | translate">
+		</mat-form-field>
+		<button mat-raised-button (click)="enterNewGame()">{{"HOME.NEW_GAME" | translate}}</button>
+
+		<div>
+			<h1>Websocket testbench</h1>
+			<mat-form-field>
+				<input matInput formControlName="gateway" placeholder="Gateway to reach">
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput formControlName="message" placeholder="Message to send">
+			</mat-form-field>
+			<button mat-raised-button (click)="testWS()">InitWS</button>
+			<button mat-raised-button (click)="sendTest()">Send Message</button>
+			<button mat-raised-button (click)="closeWS()">CloseWS</button>
+		</div>
+	</div>
+</form>

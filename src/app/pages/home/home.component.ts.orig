@@ -1,8 +1,11 @@
 import { Component, OnInit } from "@angular/core";
+<<<<<<< HEAD
 import { Router } from '@angular/router';
+=======
 import { WebsocketService } from "src/app/services/websocket/websocket.service";
 import { GameService } from "src/app/services/game/game.service";
 import { FormBuilder, FormGroup } from "@angular/forms";
+>>>>>>> First draft using websockets and communicating with tests messages on different gateways
 
 @Component({
 	selector: "app-home",
@@ -11,9 +14,14 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 })
 export class HomeComponent implements OnInit {
 
+<<<<<<< HEAD
+	constructor(private router: Router) { }
+
+=======
 	public form: FormGroup;
-	constructor(private router: Router, private gameService: GameService, private fb: FormBuilder) { }
+	constructor(private gameService: GameService, private fb: FormBuilder) { }
 	//
+>>>>>>> First draft using websockets and communicating with tests messages on different gateways
 	ngOnInit() {
 		this.setForm();
 	}

@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "./material.module";
 import { TranslateModule } from "@ngx-translate/core";
+import { ProviderModule } from "./providers.module";
 
 
 const exportModules = [
@@ -10,6 +11,7 @@ const exportModules = [
 	MaterialModule,
 	ReactiveFormsModule,
 	TranslateModule,
+	ProviderModule,
 	FormsModule
 ];
 
