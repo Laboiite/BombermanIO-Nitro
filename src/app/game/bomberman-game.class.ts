@@ -51,6 +51,9 @@ export class BombermanGame  {
 
 		engine.start(loader).then(()=> {
 			board.render(engine);
+			engine.goToScene("map1");
+			console.log( "currentScene", engine.currentScene );
+
 
 		});
 	}
