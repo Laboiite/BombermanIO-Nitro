@@ -5,6 +5,7 @@
 export const environment = {
 	production: false,
 	server: "http://localhost:4000",
+	serverWs: "ws://localhost:3000",
 	resourceUrl: "/assets/"
 };
 

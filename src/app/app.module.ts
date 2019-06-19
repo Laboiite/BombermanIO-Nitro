@@ -10,6 +10,7 @@ import { TranslateModule } from "./modules/translate.module";
 import { BaseModule } from "./modules/base.module";
 import { AppHeaderComponent } from "./components/app-header/app-header.component";
 import { GameComponent } from "./pages/game/game.component";
+import { ProviderModule } from "./modules/providers.module";
 
 @NgModule({
 	declarations: [
@@ -22,6 +23,7 @@ import { GameComponent } from "./pages/game/game.component";
 		BrowserModule,
 		BrowserAnimationsModule,
 		BaseModule,
+		ProviderModule.forRoot(),
 		MaterialModule,
 		AppRoutingModule
 	],
