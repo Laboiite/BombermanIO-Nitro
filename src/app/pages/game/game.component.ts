@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import * as ex from "excalibur";
+import { BombermanGame } from "src/app/game/bomberman-game.class";
 
 @Component({
 	selector: "app-game",
@@ -12,22 +13,24 @@ export class GameComponent implements OnInit {
 
 	ngOnInit() {
 
-		const engine= new ex.Engine({
-			canvasElementId: "game",
-			width: 800,
-			height: 600
-		});
+		const game= new BombermanGame("game", 800, 600);
 
-		const paddle= this.createPaddle(engine);
-		engine.add(paddle);
+		// const engine= new ex.Engine({
+		// 	canvasElementId: "game",
+		// 	width: 800,
+		// 	height: 600
+		// });
 
-		const bricks= this.addBricks(engine);
+		// const paddle= this.createPaddle(engine);
+		// engine.add(paddle);
 
-		const ball= this.createBall(engine, bricks);
+		// const bricks= this.addBricks(engine);
 
-		engine.add(ball);
+		// const ball= this.createBall(engine, bricks);
 
-		engine.start();
+		// engine.add(ball);
+
+		// engine.start();
 	}
 
 	private createPaddle(engine): ex.Actor {
