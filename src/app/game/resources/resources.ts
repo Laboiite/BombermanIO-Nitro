@@ -1,8 +1,17 @@
-import { Texture } from "excalibur";
 
 export const Resources= {
-	grass: new Texture("assets/sprites/tiles/grass.png"),
-	block: new Texture("assets/sprites/tiles/block.png"),
-	wall: new Texture("assets/sprites/tiles/wall.png"),
-	tilesSheet: new Texture("assets/sprites/tiles/tiles-sheet.png"),
+	sprites: {
+		grass: "sprites/tiles/grass.png",
+		block: "sprites/tiles/block.png",
+		wall: "sprites/tiles/wall.png"
+	},
+
+	tiles: {
+		tilesSheet: "sprites/tiles/tiles-sheet.png",
+		itemsSheet: "sprites/tiles/items-sheet.png",
+	},
+
+	levels: [
+		"levels/001.json"
+	]
 };

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import * as ex from "excalibur";
-import { BombermanGame } from "src/app/game/bomberman-game.class";
+import { BombermanGame } from "src/app/game/classes/bomberman-game.class";
 
 @Component({
 	selector: "app-game",

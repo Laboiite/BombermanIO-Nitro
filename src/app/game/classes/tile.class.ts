@@ -1,10 +1,10 @@
 import { Actor, Engine, Sprite, CollisionType } from "excalibur";
-import { Resources } from "./resources/resources";
+// import { Resources } from "../resources/resources";
 
 const TileSprites = {
-	"W": Resources.wall.asSprite(),
-	"G": Resources.grass.asSprite(),
-	"B": Resources.block.asSprite()
+	// "W": Resources.wall.asSprite(),
+	// "G": Resources.grass.asSprite(),
+	// "B": Resources.block.asSprite()
 };
 
 export class TileActor extends Actor {

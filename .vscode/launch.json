@@ -5,20 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}\\BombermanIO-Nitro\\src\\app\\app.component.ts",
-            "outFiles": [
-                "${workspaceFolder}/**/*.js"
-            ]
-        },
-        {
             "type": "chrome",
             "request": "launch",
-            "name": "Chrome",
+            "name": "Lancer Chrome sur localhost",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceRoot}\\BombermanIO-Nitro\\src\\app\\app.component.ts"
-          }
+            // "runtimeArgs": [
+            //     "--disable-web-security"
+            // ],
+            "webRoot": "${workspaceFolder}"
+        }
     ]
 }

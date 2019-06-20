@@ -8,16 +8,16 @@ export interface MapCellDefinition {
 
 export interface IMapTileSheet {
 	id: string;
-	path: string;
+	resourceName: string;
 	columns: number;
 	rows: number;
+	spacing?: number;
+	firstGID: number;
 }
 
-export interface MapDefinition {
+export interface LevelDef {
 	cells: MapCellDefinition[];
 	tileSheets: IMapTileSheet[];
-	// width: number;
-	// height: number;
 	columns: number;
 	rows: number;
 	tileWidth: number;
