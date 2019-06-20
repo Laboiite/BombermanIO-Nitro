@@ -1,25 +1,36 @@
 import { Engine } from "excalibur";
-import { Level } from "./level.class";
+import { Level } from "./level.scene";
 import { Resources } from "../resources/resources";
+import { Player } from "./player.actor";
+import { Config } from "../config.dict";
 
 export class Board  {
 
 	private currentLevel: number;
+	private engine: Engine;
+	private players: Player[]= [];
 
-	constructor(level: number= 0) {
+	constructor(engine: Engine, level: number= 0) {
 		this.currentLevel= level;
+		this.engine= engine;
+
+		this.players.push(
+			new Player(Config.playerStart.x, Config.playerStart.y)
+		);
 	}
 
-	render(engine: Engine) {
+	render() {
 		const levelName= `level${this.currentLevel}`;
-		let level= engine.scenes[levelName];
+		let level= this.engine.scenes[levelName];
 
 		if(!level) {
-			level= new Level(engine, 32, 32, Resources.levels[this.currentLevel]);
-			engine.add(levelName, level);
+			level= new Level(this.engine, 32, 32, Resources.levels[this.currentLevel]);
+			level.add(this.players[0]);
+			this.engine.add(levelName, level);
 		}
 
-		engine.goToScene(levelName);
+
+		this.engine.goToScene(levelName);
 	}
 
 }

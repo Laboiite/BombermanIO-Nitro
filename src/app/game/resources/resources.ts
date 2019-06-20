@@ -3,7 +3,8 @@ export const Resources= {
 	sprites: {
 		grass: "sprites/tiles/grass.png",
 		block: "sprites/tiles/block.png",
-		wall: "sprites/tiles/wall.png"
+		wall: "sprites/tiles/wall.png",
+		player1: "sprites/player1.png"
 	},
 
 	tiles: {

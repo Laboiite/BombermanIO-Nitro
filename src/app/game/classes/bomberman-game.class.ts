@@ -1,6 +1,6 @@
 import { Engine } from "excalibur";
 import { Board } from "./board.class";
-import { ResourcesLoader } from "./resources-loader.class";
+import { ResourcesLoader } from "./resources-loader.loader";
 import { Resources } from "../resources/resources";
 
 export class BombermanGame  {
@@ -18,10 +18,10 @@ export class BombermanGame  {
 			height: h
 		});
 
-		const board= new Board();
+		const board= new Board(engine);
 
 		engine.start(loader).then(()=> {
-			board.render(engine);
+			board.render();
 		});
 	}
 
