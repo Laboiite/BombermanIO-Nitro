@@ -1,4 +1,4 @@
-import { Engine } from "excalibur";
+import { Engine, Color } from "excalibur";
 import { Board } from "./board.class";
 import { ResourcesLoader } from "./resources-loader.loader";
 import { Resources } from "../resources/resources";
@@ -13,12 +13,24 @@ export class BombermanGame  {
 		loader.onerror= () => { console.log("loader error"); };
 
 		const engine= new Engine({
+			backgroundColor: Color.White,
 			canvasElementId: elemId,
 			width: B,
 			height: h
 		});
+		engine.setAntialiasing(false);
 
 		const board= new Board(engine);
+
+		// Game events to handle
+		engine.on("hidden", () => {
+			console.log("pause");
+			engine.stop();
+		});
+		engine.on("visible", () => {
+			console.log("start");
+			engine.start();
+		});
 
 		engine.start(loader).then(()=> {
 			board.render();

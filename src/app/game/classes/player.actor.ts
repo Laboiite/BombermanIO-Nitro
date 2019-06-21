@@ -1,4 +1,4 @@
-import { Actor, Engine, CollisionType, Sprite, Input, PostUpdateEvent } from "excalibur";
+import { Actor, Engine, CollisionType, Sprite, Input, PostUpdateEvent, Events, Vector } from "excalibur";
 import { Config } from "../config.dict";
 import { Resources } from "../resources/resources";
 
@@ -12,52 +12,56 @@ export class Player extends Actor {
 	public onInitialize(engine: Engine) {
 
 		this._setupDrawing();
-
-		this.body.collider.type= CollisionType.Active;
-
 		this._setupInputs(engine);
-
-		// this.on("collision", (e?: CollisionEvent) => {
-
-		// });
-		this.on("postupdate", (evt: PostUpdateEvent) => {
-			this.vel.setTo(0, 0);
-		});
+		this._setupCollision();
 
 	}
 
-	private _setupInputs(engine) {
-		engine.input.keyboard.on("up", (keyUp?: Input.KeyEvent) => {
-			// if(!State.gameOver) {
-			if(true) {
-				switch(keyUp.key) {
-					case Input.Keys.Up :
-					case Input.Keys.W :
-						this.vel.setTo(this.vel.x, -Config.playerVel);
-						this.setDrawing("up");
-						break;
-					case Input.Keys.Down :
-					case Input.Keys.S :
-						this.vel.setTo(this.vel.x, Config.playerVel);
-						this.setDrawing("down");
-						break;
-					case Input.Keys.Left :
-					case Input.Keys.A :
-						this.vel.setTo(-Config.playerVel, this.vel.y);
-						this.setDrawing("left");
-						break;
-					case Input.Keys.Right :
-					case Input.Keys.D :
-						this.vel.setTo(Config.playerVel, this.vel.y);
-						this.setDrawing("right");
-						break;
-				}
+	private _setupCollision( ) {
+		this.body.collider.type= CollisionType.Passive;
+		this.on("precollision", evt => console.log("PreCollisionEvent", evt));
+		this.on("collision", evt => console.log("CollisionEvent", evt));
+	}
+
+	private _setupInputs(engine: Engine) {
+		const kbd= engine.input.keyboard;
+
+		kbd.on("hold", (keyUp?: Input.KeyEvent) => {
+			switch(keyUp.key) {
+				case Input.Keys.Up :
+				case Input.Keys.W :
+					this.vel.setTo(this.vel.x, -Config.playerVel);
+					this.setDrawing("up");
+					break;
+				case Input.Keys.Down :
+				case Input.Keys.S :
+					this.vel.setTo(this.vel.x, Config.playerVel);
+					this.setDrawing("down");
+					break;
+				case Input.Keys.Left :
+				case Input.Keys.A :
+					this.vel.setTo(-Config.playerVel, this.vel.y);
+					this.setDrawing("left");
+					break;
+				case Input.Keys.Right :
+				case Input.Keys.D :
+					this.vel.setTo(Config.playerVel, this.vel.y);
+					this.setDrawing("right");
+					break;
 			}
 		});
+
+		kbd.on("release", (evt: ex.Input.KeyEvent) => {
+			this.vel = Vector.Zero.clone();
+		});
 	}
+
 	private _setupDrawing() {
 
-		this.addDrawing(Resources.sprites.player1 as any);
+		this.addDrawing("up", Resources.sprites.player1 as any);
+		this.addDrawing("down", Resources.sprites.player1 as any);
+		this.addDrawing("left", Resources.sprites.player1 as any);
+		this.addDrawing("right", Resources.sprites.player1 as any);
 
 /*
 		const playerSheet = new SpriteSheet(director.getCharSprite(), 10, 1, 45, 45);
