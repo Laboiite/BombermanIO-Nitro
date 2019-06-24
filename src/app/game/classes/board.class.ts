@@ -1,6 +1,5 @@
 import { Engine } from "excalibur";
 import { Level } from "./level.scene";
-import { Resources } from "../resources/resources";
 import { Player } from "./player.actor";
 import { Config } from "../config.dict";
 
@@ -24,7 +23,7 @@ export class Board  {
 		let level= this.engine.scenes[levelName];
 
 		if(!level) {
-			level= new Level(this.engine, 32, 32, Resources.levels[this.currentLevel]);
+			level= new Level(this.engine, 32, 32, this.currentLevel);
 			level.add(this.players[0]);
 			this.engine.add(levelName, level);
 		}
