@@ -1,7 +1,10 @@
 import { Scene, TileMap, Engine, SpriteSheet, Texture, TileSprite } from "excalibur";
-import { LevelDef, IMapTileSheet } from "../interfaces/level-def.intf";
 import { Resources } from "../resources/resources";
-import { ITiledMap, ITiledTileSet } from "../interfaces/tiledmap.intf";
+import { ITiledMap, ITiledTileSet, ITiledMapLayer } from "../interfaces/tiledmap.intf";
+import { Walls } from "./walls.actor";
+
+const 	LAYER_FLOOR= "floor",
+		LAYER_WALLS= "blocks";
 
 export class Level extends Scene {
 
@@ -10,6 +13,7 @@ export class Level extends Scene {
 	private _offsetX: number;
 	private _offsetY: number;
 	private _tileMap: TileMap;
+	private _tiledMapFile: ITiledMap;
 
 	constructor(engine: Engine, x: number, y: number, level: number) {
 		super(engine);
@@ -17,54 +21,80 @@ export class Level extends Scene {
 		this._offsetX= x;
 		this._offsetY= y;
 		this._level= level;
-
+		this._tiledMapFile= Resources.levels[this._level] as any;
 	}
 
 	public onInitialize() {
-		this._tileMap= this.createTileMap();
+		this._tileMap= this.createTileMap([LAYER_FLOOR]);
 		this.addTileMap(this._tileMap);
+
+		this.addWalls([LAYER_WALLS]);
 	}
 
-	private createTileMap() {
-		const tiledMapFile: ITiledMap= Resources.levels[this._level] as any;
+	private createTileMap(useLayers: string[]) {
 		let tileMap: TileMap;
 
-		if(tiledMapFile.version !== 1.2 && tiledMapFile.type !== "map") {
+		if(this._tiledMapFile.version !== 1.2 && this._tiledMapFile.type !== "map") {
 			throw new Error("Unable to read this level !");
 		}
 
 		tileMap= new TileMap(
-									this._offsetX, this._offsetY,
-									tiledMapFile.tilewidth, tiledMapFile.tileheight, tiledMapFile.height, tiledMapFile.width
-								);
+								this._offsetX, this._offsetY,
+								this._tiledMapFile.tilewidth, this._tiledMapFile.tileheight, this._tiledMapFile.height, this._tiledMapFile.width
+							);
 
 
-		for(const ts of tiledMapFile.tilesets) {
+		for(const ts of this._tiledMapFile.tilesets) {
 			const cols= Math.floor(ts.imagewidth / ts.tilewidth);
 			const rows= Math.floor(ts.imageheight / ts.tileheight);
 			const ss= new SpriteSheet(Resources.tiles[ts.name], cols, rows, ts.tilewidth, ts.tileheight);
 			tileMap.registerSpriteSheet(ts.name, ss);
 		}
 
-		for(const layer of tiledMapFile.layers) {
-			if(layer.type!=="tilelayer") {
-				continue;
-			}
-			(layer.data as number[]).forEach((sgid, idx) => {
-				if(sgid!==0) {
-					const ts= this.getTilesetForTile(tiledMapFile, sgid);
-					tileMap.data[idx].pushSprite( new TileSprite(ts.name, sgid - ts.firstgid) );
-				}
+		this.filterLayers(useLayers).forEach(layer => {
+				(layer.data as number[]).forEach((sgid, idx) => {
+					if(sgid!==0) {
+						const ts= this.getTilesetForTile(sgid);
+						tileMap.data[idx].pushSprite( new TileSprite(ts.name, sgid - ts.firstgid) );
+					}
+				});
 			});
-		}
+
+		// for(const layer of tiledMapFile.layers) {
+		// 	if(layer.type!=="tilelayer") {
+		// 		continue;
+		// 	}
+		// 	(layer.data as number[]).forEach((sgid, idx) => {
+		// 		if(sgid!==0) {
+		// 			const ts= this.getTilesetForTile(tiledMapFile, sgid);
+		// 			tileMap.data[idx].pushSprite( new TileSprite(ts.name, sgid - ts.firstgid) );
+		// 		}
+		// 	});
+		// }
 
 		return tileMap;
 
 	}
 
-	private getTilesetForTile(tiledMap: ITiledMap, gid: number): ITiledTileSet {
-		for (let idx = tiledMap.tilesets.length - 1; idx >= 0; idx--) {
-			const ts= tiledMap.tilesets[idx];
+	private addWalls(useLayers: string[]) {
+		this.filterLayers(useLayers).forEach(layer => {
+				(layer.data as number[]).forEach((sgid, idx) => {
+					if(sgid!==0) {
+						const x= this._tiledMapFile.tilewidth * (idx % this._tiledMapFile.width) + this._offsetX;
+						const y= this._tiledMapFile.tileheight * Math.floor(idx / this._tiledMapFile.width) + this._offsetY;
+						this.add( new Walls(x, y) );
+					}
+				});
+			});
+	}
+
+	private filterLayers(useLayers: string[]): ITiledMapLayer[] {
+		return this._tiledMapFile.layers.filter(layer => layer.type==="tilelayer" && useLayers.includes(layer.name));
+	}
+
+	private getTilesetForTile(gid: number): ITiledTileSet {
+		for (let idx = this._tiledMapFile.tilesets.length - 1; idx >= 0; idx--) {
+			const ts= this._tiledMapFile.tilesets[idx];
 
 			if (ts.firstgid <= gid) {
 				return ts;

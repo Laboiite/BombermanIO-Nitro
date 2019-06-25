@@ -50,7 +50,7 @@
                  "value":"Passive"
                 }],
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":17,
          "x":0,
          "y":0
