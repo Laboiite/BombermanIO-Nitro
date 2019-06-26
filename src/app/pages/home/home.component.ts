@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 import { WebsocketService } from "src/app/services/websocket/websocket.service";
 import { GameService } from "src/app/services/game/game.service";
 import { FormBuilder, FormGroup } from "@angular/forms";
@@ -12,25 +12,41 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 export class HomeComponent implements OnInit {
 
 	public form: FormGroup;
-	constructor(private router: Router, private gameService: GameService, private fb: FormBuilder) { }
+	constructor(private router: Router,
+		private gameService: GameService,
+		private fb: FormBuilder,
+		private webSocketService: WebsocketService) { }
 	//
 	ngOnInit() {
 		this.setForm();
 	}
 
 	/**
-	 * enterNewGame()
+	 * createGame()
+	 * Instanciates a websocket with our server
+	 * Creates a new game
 	 * Triggers the navigation to our board
 	 */
-	public enterNewGame() {
-		this.router.navigate(["/game"]);
+	public createGame() {
+		this.webSocketService.initSocket(this.form.controls.nickName.value);
+		this.gameService.createGame(this.form.controls.gameNameToCreate.value);
+		// this.initWS();
+		// this.router.navigate(["/game"]);
+	}
+	/**
+	 * joinGame()
+	 */
+	public joinGame() {
+		this.webSocketService.initSocket(this.form.controls.nickName.value);
+		this.gameService.joinGame(this.form.controls.gameNameToJoin.value);
+		// this.router.navigate(["/game"]);
 	}
 	/**
 	 * testWS()
 	 * Test of our websocket conneciton
 	 */
-	public testWS() {
-		this.gameService.enterGame();
+	public initWS() {
+		// this.gameService.enterGame(this.form.controls.nickName.value);
 	}
 	/**
 	 * closeWS()
@@ -42,10 +58,26 @@ export class HomeComponent implements OnInit {
 
 	/**
 	 * sendTest()
-	 * Test of our websocket conneciton
+	 * Test of our websocket connection
 	 */
 	public sendTest() {
-		this.gameService.sendTest(this.form.controls.message.value, this.form.controls.gateway.value);
+		this.webSocketService.send(this.form.controls.gateway.value, this.form.controls.message.value);
+	}
+
+	/**
+	 * getGameStatus()
+	 * Get the game status
+	 */
+	public getGameStatus() {
+		this.gameService.getStatus();
+	}
+	/**
+	 * indicateReady()
+	 * Indicate if we're ready or not
+	 */
+	public indicateReady() {
+		console.log("check if ready : ", this.form.controls.isReady.value);
+		// this.gameService.sendTest(this.form.controls.message.value, this.form.controls.nickName.value, this.form.controls.gateway.value);
 	}
 	/**
 	 * setForm()
@@ -55,6 +87,11 @@ export class HomeComponent implements OnInit {
 		this.form = this.fb.group({
 			gateway: [],
 			message: [],
+			nickName: [],
+			gameNameToCreate: [],
+			gameNameToJoin: [],
+			isReady: [{ value: false }],
+			gameStatus: [{ value: "", disabled: true }],
 		});
 	}
 

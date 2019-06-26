@@ -27,6 +27,9 @@
 	},
 	"HOME" : {
 		"NICKNAME": "Enter your nickname",
-		"NEW_GAME": "New game"
+		"GAMENAME_TO_CREATE": "Game's name to create",
+		"GAMENAME_TO_JOIN": "Game's name to join",
+		"CREATE_GAME": "Create new game",
+		"JOIN_GAME": "Join game"
 	}
 }
