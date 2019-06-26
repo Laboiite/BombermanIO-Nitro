@@ -1,20 +1,34 @@
-import { Actor, Engine, CollisionType, Sprite, Input, PostUpdateEvent, Vector, Events, EventTypes, PostCollisionEvent } from "excalibur";
+import { Actor, Engine, CollisionType, Input, Vector, PostCollisionEvent, SpriteSheet, PostUpdateEvent } from "excalibur";
 import { Config } from "../config.dict";
 import { Resources } from "../resources/resources";
 
 
 export class Player extends Actor {
+	private _id: number;
+	private _lastPos: Vector= new Vector(0, 0);
 
-	constructor(x, y) {
+	constructor(x, y, id: number) {
 		super(x, y, Config.playerWidth, Config.playerHeight);
+		this._id= id;
 	}
 
 	public onInitialize(engine: Engine) {
 
-		this._setupDrawing();
-		this._setupInputs(engine);
+		this._setupDrawing(engine);
+		if(this._id===1) {
+			this._setupInputs(engine);
+		}
 		this._setupCollision();
 
+		// this.on("postupdate", this.onPostUpdate);
+
+	}
+
+	public onPostUpdate(engine: Engine, delta: number) {
+		if(!this.pos.equals(this._lastPos)) {
+			this._lastPos.setTo(this.pos.x, this.pos.y);
+			console.log("onPostUpdate", this.pos);
+		}
 	}
 
 	private _setupCollision( ) {
@@ -35,38 +49,70 @@ export class Player extends Actor {
 				case Input.Keys.Up :
 				case Input.Keys.W :
 					this.vel.setTo(this.vel.x, -Config.playerVel);
-					this.setDrawing("up");
+					this.setDrawing("walkUp");
 					break;
 				case Input.Keys.Down :
 				case Input.Keys.S :
 					this.vel.setTo(this.vel.x, Config.playerVel);
-					this.setDrawing("down");
+					this.setDrawing("walkDown");
 					break;
 				case Input.Keys.Left :
 				case Input.Keys.A :
 					this.vel.setTo(-Config.playerVel, this.vel.y);
-					this.setDrawing("left");
+					this.setDrawing("walkLeft");
 					break;
 				case Input.Keys.Right :
 				case Input.Keys.D :
 					this.vel.setTo(Config.playerVel, this.vel.y);
-					this.setDrawing("right");
+					this.setDrawing("walkRight");
 					break;
 			}
 
 		});
-
+		kbd.on("up", (keyUp?: ex.Input.KeyEvent) => {
+			switch(keyUp.key) {
+				case Input.Keys.Up :
+				case Input.Keys.W :
+					this.setDrawing("up");
+				break;
+				case Input.Keys.Down :
+				case Input.Keys.S :
+					// this.vel.setTo(this.vel.x, Config.playerVel);
+					this.setDrawing("down");
+				break;
+				case Input.Keys.Left :
+				case Input.Keys.A :
+					this.setDrawing("left");
+				break;
+				case Input.Keys.Right :
+				case Input.Keys.D :
+					this.setDrawing("right");
+				break;
+			}
+		});
 		kbd.on("release", (evt: ex.Input.KeyEvent) => {
 			this.vel = Vector.Zero.clone();
 		});
 	}
 
-	private _setupDrawing() {
+	private _setupDrawing(engine: Engine) {
+		const playerSheet= new SpriteSheet(Resources.tiles["playerSheet"+this._id] as any, 20, 1, 34, 52);
+		const downSprite= playerSheet.getSprite(1);
+		const upSprite= playerSheet.getSprite(10);
+		const leftSprite= playerSheet.getSprite(4);
+		const righSprite= playerSheet.getSprite(7);
 
-		this.addDrawing("up", Resources.sprites.player1 as any);
-		this.addDrawing("down", Resources.sprites.player1 as any);
-		this.addDrawing("left", Resources.sprites.player1 as any);
-		this.addDrawing("right", Resources.sprites.player1 as any);
+		this.addDrawing("up", upSprite);
+		this.addDrawing("down", downSprite);
+		this.addDrawing("left", leftSprite);
+		this.addDrawing("right", righSprite);
+
+		this.addDrawing("walkUp", playerSheet.getAnimationByIndices(engine, [9, 11], 90));
+		this.addDrawing("walkDown", playerSheet.getAnimationByIndices(engine, [0, 2], 90));
+		this.addDrawing("walkLeft", playerSheet.getAnimationByIndices(engine, [3, 13, 4], 90));
+		this.addDrawing("walkRight", playerSheet.getAnimationByIndices(engine, [6, 14, 7], 90));
+
+		this.setDrawing("down");
 
 /*
 		const playerSheet = new SpriteSheet(director.getCharSprite(), 10, 1, 45, 45);

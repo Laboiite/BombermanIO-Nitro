@@ -7,7 +7,7 @@ export class Walls extends Actor {
 
 	constructor(x, y) {
 		super(x, y, Config.playerWidth, Config.playerHeight);
-		this.anchor.setTo(0, 0);
+		// this.anchor.setTo(0, 0);
 	}
 
 	public onInitialize(engine: Engine) {

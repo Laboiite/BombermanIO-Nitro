@@ -22,12 +22,9 @@ export class Level extends Scene {
 		this._offsetY= y;
 		this._level= level;
 		this._tiledMapFile= Resources.levels[this._level] as any;
-	}
 
-	public onInitialize() {
 		this._tileMap= this.createTileMap([LAYER_FLOOR]);
 		this.addTileMap(this._tileMap);
-
 		this.addWalls([LAYER_WALLS]);
 	}
 
@@ -77,11 +74,13 @@ export class Level extends Scene {
 	}
 
 	private addWalls(useLayers: string[]) {
+		const offsetX= this._offsetX + this._offsetX/2;
+		const offsetY= this._offsetX + this._offsetY/2;
 		this.filterLayers(useLayers).forEach(layer => {
 				(layer.data as number[]).forEach((sgid, idx) => {
 					if(sgid!==0) {
-						const x= this._tiledMapFile.tilewidth * (idx % this._tiledMapFile.width) + this._offsetX;
-						const y= this._tiledMapFile.tileheight * Math.floor(idx / this._tiledMapFile.width) + this._offsetY;
+						const x= this._tiledMapFile.tilewidth * (idx % this._tiledMapFile.width) + offsetX;
+						const y= this._tiledMapFile.tileheight * Math.floor(idx / this._tiledMapFile.width) + offsetY;
 						this.add( new Walls(x, y) );
 					}
 				});

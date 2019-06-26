@@ -1,4 +1,5 @@
-{ "columns":20,
+{ "backgroundcolor":"#d6d5cd",
+ "columns":20,
  "grid":
     {
      "height":22,
@@ -6,16 +7,15 @@
      "width":17
     },
  "image":"player1-sheet.png",
- "imageheight":26,
- "imagewidth":359,
+ "imageheight":52,
+ "imagewidth":680,
  "margin":0,
  "name":"player1-sheet",
- "spacing":1,
- "tilecount":25,
+ "spacing":0,
+ "tilecount":80,
  "tiledversion":"1.2.4",
- "tileheight":26,
- "tilewidth":17,
- "transparentcolor":"#c0c0c0",
+ "tileheight":52,
+ "tilewidth":34,
  "type":"tileset",
  "version":1.2
 }

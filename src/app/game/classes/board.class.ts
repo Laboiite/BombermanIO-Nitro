@@ -14,7 +14,10 @@ export class Board  {
 		this.engine= engine;
 
 		this.players.push(
-			new Player(Config.playerStart.x, Config.playerStart.y)
+			new Player(Config.playerStart.x, Config.playerStart.y, this.players.length+1)
+		);
+		this.players.push(
+			new Player(Config.playerStart.x, Config.playerStart.y, this.players.length+1)
 		);
 	}
 
@@ -24,8 +27,9 @@ export class Board  {
 
 		if(!level) {
 			level= new Level(this.engine, 32, 32, this.currentLevel);
-			level.add(this.players[0]);
 			this.engine.add(levelName, level);
+
+			this.players.forEach(player => level.add(player));
 		}
 
 
