@@ -18,7 +18,7 @@ export class Walls extends Actor {
 	}
 
 	private _setupCollision( ) {
-		this.body.collider.type= CollisionType.Passive;
+		this.body.collider.type= CollisionType.Fixed;
 		this.on("Walls precollision", evt => console.log("PreCollisionEvent", evt));
 		this.on("Walls collision", evt => console.log("CollisionEvent", evt));
 	}

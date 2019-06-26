@@ -1,4 +1,4 @@
-import { Actor, Engine, CollisionType, Sprite, Input, PostUpdateEvent, Events, Vector } from "excalibur";
+import { Actor, Engine, CollisionType, Sprite, Input, PostUpdateEvent, Vector, Events, EventTypes, PostCollisionEvent } from "excalibur";
 import { Config } from "../config.dict";
 import { Resources } from "../resources/resources";
 
@@ -18,9 +18,13 @@ export class Player extends Actor {
 	}
 
 	private _setupCollision( ) {
-		this.body.collider.type= CollisionType.Passive;
-		this.on("precollision", evt => console.log("PreCollisionEvent", evt));
-		this.on("collision", evt => console.log("CollisionEvent", evt));
+		this.body.collider.type= CollisionType.Active;
+
+		// this.on("precollision", evt => console.log("PreCollisionEvent", evt));
+		this.on("postcollision", (evt: PostCollisionEvent) => {
+			console.log("Player postcollision", evt.side);
+			this.vel = Vector.Zero.clone();
+		});
 	}
 
 	private _setupInputs(engine: Engine) {
@@ -49,6 +53,7 @@ export class Player extends Actor {
 					this.setDrawing("right");
 					break;
 			}
+
 		});
 
 		kbd.on("release", (evt: ex.Input.KeyEvent) => {
