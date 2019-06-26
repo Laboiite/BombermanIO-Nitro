@@ -2,10 +2,20 @@
 	<div style="text-align:center">
 
 		<mat-form-field>
-			<input matInput [placeholder]="'HOME.NICKNAME' | translate">
+			<input matInput [placeholder]="'HOME.NICKNAME' | translate" formControlName="nickName">
 		</mat-form-field>
-		<button mat-raised-button (click)="enterNewGame()">{{"HOME.NEW_GAME" | translate}}</button>
+		<mat-form-field>
+			<input matInput [placeholder]="'HOME.GAMENAME_TO_CREATE' | translate" formControlName="gameNameToCreate">
+		</mat-form-field>
+		<button mat-raised-button (click)="createGame()">{{"HOME.CREATE_GAME" | translate}}</button>
 
+
+		<div>
+			<mat-form-field>
+				<input matInput [placeholder]="'HOME.GAMENAME_TO_JOIN' | translate" formControlName="gameNameToJoin">
+			</mat-form-field>
+			<button mat-raised-button (click)="joinGame()">{{"HOME.JOIN_GAME" | translate}}</button>
+		</div>
 		<div>
 			<h1>Websocket testbench</h1>
 			<mat-form-field>
@@ -14,9 +24,19 @@
 			<mat-form-field>
 				<input matInput formControlName="message" placeholder="Message to send">
 			</mat-form-field>
-			<button mat-raised-button (click)="testWS()">InitWS</button>
+			<button mat-raised-button (click)="initWS()">InitWS</button>
 			<button mat-raised-button (click)="sendTest()">Send Message</button>
 			<button mat-raised-button (click)="closeWS()">CloseWS</button>
+		</div>
+		<div>
+			<h1>Game status live</h1>
+			<mat-form-field>
+				<input matInput formControlName="gameStatus" placeholder="GameStatus">
+			</mat-form-field>
+			<mat-checkbox formControlName="isReady" (click)="indicateReady()">Ready !</mat-checkbox>
+			<!-- [(ngModel)]="isReady" (click)="changeReady()" -->
+			<button mat-raised-button (click)="getGameStatus()">Get Game Status</button>
+			<button mat-raised-button (click)="indicateReady()">Ready to play?</button>
 		</div>
 	</div>
 </form>

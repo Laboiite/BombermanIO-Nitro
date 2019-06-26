@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { WebsocketService } from "../websocket/websocket.service";
+import { MESSAGE } from "src/app/shared/message.enum";
 
 @Injectable({
 	providedIn: "root"
@@ -8,21 +9,30 @@ export class GameService {
 
 	constructor(private websocketService: WebsocketService) { }
 
-	public enterGame() {
-		this.websocketService.initSocket();
-		this.websocketService.socket.subscribe(
-			msg => console.log("message received: " + msg), // Called whenever there is a message from the server.
-			err => console.log("error in our websocket :", err), // Called if at any point WebSocket API signals some kind of error.
-			() => console.log("complete") // Called when connection is closed (for whatever reason).
-		);
-		console.log("Connected");
+	/**
+	 * createGame()
+	 * Create a game
+	 */
+	public createGame(gameName: string) {
+		this.websocketService.send(MESSAGE.CREATE_GAME, gameName);
+	}
+
+	/**
+	 * joinGame()
+	 * Join a game
+	 */
+	public joinGame(gameName: string) {
+		this.websocketService.send(MESSAGE.JOIN_GAME, gameName);
 	}
 
 	public endGame() {
 		this.websocketService.closeSocket();
 	}
 
-	public sendTest(message: string, gateway?: string) {
-		this.websocketService.send(message, gateway);
+	// public sendTest(message: string, client: string, gateway?: string) {
+	// 	this.websocketService.send(message, client, gateway);
+	// }
+
+	public getStatus() {
 	}
 }

@@ -27,6 +27,9 @@
 	},
 	"HOME" : {
 		"NICKNAME": "Entrez votre pseudo",
-		"NEW_GAME": "Nouvelle partie"
+		"GAMENAME_TO_CREATE": "Nom de la partie à créer",
+		"GAMENAME_TO_JOIN": "Nom de la partie à rejoindre",
+		"CREATE_GAME": "Créer une partie",
+		"JOIN_GAME": "Rejoindre une partie"
 	}
 }
