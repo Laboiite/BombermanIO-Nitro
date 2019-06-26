@@ -9,11 +9,12 @@ import { BombermanGame } from "src/app/game/classes/bomberman-game.class";
 })
 export class GameComponent implements OnInit {
 
+	private _game: BombermanGame= null;
+
 	constructor() { }
 
 	ngOnInit() {
 
-		const game= new BombermanGame("game", 800, 600);
 
 		// const engine= new ex.Engine({
 		// 	canvasElementId: "game",
@@ -31,6 +32,16 @@ export class GameComponent implements OnInit {
 		// engine.add(ball);
 
 		// engine.start();
+	}
+
+	public startGame() {
+		this._game= new BombermanGame("game", 800, 600);
+	}
+
+	public addPlayer() {
+		if(this._game) {
+			this._game.addPlayer();
+		}
 	}
 
 	private createPaddle(engine): ex.Actor {

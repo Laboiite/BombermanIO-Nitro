@@ -20,23 +20,18 @@ export class Player extends Actor {
 		}
 		this._setupCollision();
 
-		// this.on("postupdate", this.onPostUpdate);
-
 	}
 
 	public onPostUpdate(engine: Engine, delta: number) {
 		if(!this.pos.equals(this._lastPos)) {
 			this._lastPos.setTo(this.pos.x, this.pos.y);
-			console.log("onPostUpdate", this.pos);
 		}
 	}
 
 	private _setupCollision( ) {
 		this.body.collider.type= CollisionType.Active;
 
-		// this.on("precollision", evt => console.log("PreCollisionEvent", evt));
 		this.on("postcollision", (evt: PostCollisionEvent) => {
-			console.log("Player postcollision", evt.side);
 			this.vel = Vector.Zero.clone();
 		});
 	}

@@ -6,6 +6,7 @@ import { Config } from "../config.dict";
 export class Board  {
 
 	private currentLevel: number;
+	private currentLevelName: string;
 	private engine: Engine;
 	private players: Player[]= [];
 
@@ -14,26 +15,38 @@ export class Board  {
 		this.engine= engine;
 
 		this.players.push(
-			new Player(Config.playerStart.x, Config.playerStart.y, this.players.length+1)
+			new Player(Config.playerStart.x, Config.playerStart.y, 1)
 		);
-		this.players.push(
-			new Player(Config.playerStart.x, Config.playerStart.y, this.players.length+1)
-		);
+		// this.players.push(
+		// 	new Player(Config.playerStart.x, Config.playerStart.y, this.players.length+1)
+		// );
 	}
 
 	render() {
-		const levelName= `level${this.currentLevel}`;
-		let level= this.engine.scenes[levelName];
+		this.currentLevelName= `level${this.currentLevel}`;
+		let level= this.engine.scenes[this.currentLevelName];
 
 		if(!level) {
 			level= new Level(this.engine, 32, 32, this.currentLevel);
-			this.engine.add(levelName, level);
+			this.engine.add(this.currentLevelName, level);
 
 			this.players.forEach(player => level.add(player));
 		}
 
 
-		this.engine.goToScene(levelName);
+		this.engine.goToScene(this.currentLevelName);
+	}
+
+	addPlayer() {
+		const newPlayer= new Player(Config.playerStart.x, Config.playerStart.y, this.players.length+1);
+		const level= this.engine.scenes[this.currentLevelName];
+
+		this.players.push(newPlayer);
+		level.add(newPlayer);
+
+		// level.actors;
+
+		this.engine.goToScene(this.currentLevelName);
 	}
 
 }
