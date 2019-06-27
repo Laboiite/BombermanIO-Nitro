@@ -1,9 +1,11 @@
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { webSocket } from "rxjs/webSocket";
+import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { Observable } from "rxjs";
+import { filter } from "rxjs/operators";
 import * as uuid from "uuid";
-import { BROADCAST } from 'src/app/shared/broadcast.enum';
+import { BROADCAST } from "src/app/shared/broadcast.enum";
+import { WSMessage } from "src/app/shared/wsmessage.intf";
 
 
 @Injectable({
@@ -11,23 +13,16 @@ import { BROADCAST } from 'src/app/shared/broadcast.enum';
 })
 export class WebsocketService {
 
-	public socket;
+	public socket: WebSocketSubject<WSMessage>;
 	public client;
 	constructor() { }
 
-	public initSocket(nickName: string): void {
-		this.socket = webSocket(environment.serverWs);
-		this.socket.subscribe(
-			msg => {
-				this.handleMsg(msg);
-			}, // Called whenever there is a message from the server.
-			err => console.log("error in our websocket :", err), // Called if at any point WebSocket API signals some kind of error.
-			() => console.log("complete") // Called when connection is closed (for whatever reason).
-		);
-		// this.socket.subscribe();
+	public initSocket(nickName: string, handleEvents: string[]) {
+		this.socket = webSocket<WSMessage>(environment.serverWs);
 		this.client = { id: uuid.v4(), nickName: nickName };
-		// this.client= nickName;
 		console.log("--------- Socket initialized !");
+		return this.socket.pipe(filter(msg => handleEvents.includes(msg.event))
+		);
 	}
 
 	public closeSocket(): void {
@@ -35,29 +30,10 @@ export class WebsocketService {
 		console.log("--------- Socket closed !");
 	}
 
-	public send(message: string, content: string ): void {
+	public send(message: string, content: string): void {
 		this.socket.next({
 			event: message,
 			data: { client: this.client, content: content },
 		});
 	}
-
-	public handleMsg(message: any) {
-		console.log("message envoyé par le serveur :", message);
-		if (message.topic === BROADCAST.TEST) {
-			console.log("J'ai un message de type TEST, je vais appeler mon testService avec le contenu du message et gérer");
-		}
-	}
-
-	// public onMessage(): Observable<string> {
-	// 	return new Observable<string>(observer => {
-	// 		this.socket.on("message", (data: string) => observer.next(data));
-	// 	});
-	// }
-
-	// public onEvent(event: any): Observable<any> {
-	// 	return new Observable<any>(observer => {
-	// 		this.socket.on(event, () => observer.next());
-	// 	});
-	// }
 }
