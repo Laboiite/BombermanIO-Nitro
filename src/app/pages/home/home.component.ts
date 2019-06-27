@@ -28,17 +28,15 @@ export class HomeComponent implements OnInit {
 	 * Triggers the navigation to our board
 	 */
 	public createGame() {
-		this.webSocketService.initSocket(this.form.controls.nickName.value);
-		this.gameService.createGame(this.form.controls.gameNameToCreate.value);
+		// this.gameService.createGame(this.form.controls.nickName.value, this.form.controls.gameNameToCreate.value);
 		// this.initWS();
-		// this.router.navigate(["/game"]);
+		this.router.navigate(["/game"]);
 	}
 	/**
 	 * joinGame()
 	 */
 	public joinGame() {
-		this.webSocketService.initSocket(this.form.controls.nickName.value);
-		this.gameService.joinGame(this.form.controls.gameNameToJoin.value);
+		this.gameService.joinGame(this.form.controls.nickName.value, this.form.controls.gameNameToJoin.value);
 		// this.router.navigate(["/game"]);
 	}
 	/**
