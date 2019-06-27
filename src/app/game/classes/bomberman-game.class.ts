@@ -7,8 +7,11 @@ export class BombermanGame  {
 
 	private _board: Board;
 
-	constructor(elemId: string, W: number, H: number) {
+	constructor() {
 
+	}
+
+	public run(elemId: string, W: number, H: number) {
 		const loader= new ResourcesLoader(Resources);
 		// loader.onprogress= e => { console.log("loader progress", e); };
 		// loader.oncomplete= () => { console.log("loader done"); };
@@ -35,7 +38,6 @@ export class BombermanGame  {
 			this._board.render();
 		});
 	}
-
 	public addPlayer() {
 		this._board.addPlayer();
 	}

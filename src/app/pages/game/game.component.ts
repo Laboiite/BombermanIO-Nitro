@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import * as ex from "excalibur";
 import { BombermanGame } from "src/app/game/classes/bomberman-game.class";
+import { GameService } from 'src/app/services/game/game.service';
 
 @Component({
 	selector: "app-game",
@@ -9,12 +10,12 @@ import { BombermanGame } from "src/app/game/classes/bomberman-game.class";
 })
 export class GameComponent implements OnInit {
 
-	private _game: BombermanGame= null;
+	// private _game: BombermanGame= null;
 
-	constructor() { }
+	constructor(private gameService: GameService) { }
 
 	ngOnInit() {
-
+		this.initGame();
 
 		// const engine= new ex.Engine({
 		// 	canvasElementId: "game",
@@ -34,13 +35,14 @@ export class GameComponent implements OnInit {
 		// engine.start();
 	}
 
-	public startGame() {
-		this._game= new BombermanGame("game", 800, 600);
+	public initGame() {
+		// this.gameService.currentGame= new BombermanGame("game", 800, 600);
+		this.gameService.currentGame.run("game", 800, 600);
 	}
 
 	public addPlayer() {
-		if(this._game) {
-			this._game.addPlayer();
+		if(this.gameService.currentGame) {
+			this.gameService.currentGame.addPlayer();
 		}
 	}
 
