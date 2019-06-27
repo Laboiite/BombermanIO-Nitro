@@ -17,19 +17,13 @@ export class GameService {
 	public mysocket: any;
 	constructor(private websocketService: WebsocketService) { }
 
-	// private handleMsg(message: WSMessage) {
-	// 	switch(message.event) {
-	// 		case BROADCAST.NEWPLAYER:
-	// 			break;
-	// 	}
-	// }
 	/**
 	 * createGame()
 	 * Create a game
 	 */
-	public createGame(nickName: string, gameName: string, game: BombermanGame) {
+	public createGame(nickName: string, gameName: string) {
 		this.initSocket(nickName);
-		this.currentGame = game;
+		this.currentGame = new BombermanGame();
 		this.websocketService.send(MESSAGE.CREATE_GAME, gameName);
 	}
 
@@ -39,6 +33,7 @@ export class GameService {
 	 */
 	public joinGame(nickName: string, gameName: string) {
 		this.initSocket(nickName);
+		this.currentGame = new BombermanGame();
 		this.websocketService.send(MESSAGE.JOIN_GAME, gameName);
 	}
 
@@ -70,7 +65,7 @@ export class GameService {
 			case BROADCAST.NEWPLAYER:
 				console.log("------ New player entered the game");
 				console.log("------ Updated player list :", message.data);
-				// this.currentGame.addPlayer();
+				this.currentGame.addPlayer();
 				break;
 
 			default:
