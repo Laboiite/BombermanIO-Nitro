@@ -6,7 +6,7 @@ import { WSMessage } from "src/app/shared/wsmessage.intf";
 import { BROADCAST } from "src/app/shared/broadcast.enum";
 import { IPlayerMove } from "src/app/game/classes/player.actor";
 
-const HANDLE_EVENTS= [BROADCAST.MESSAGE, BROADCAST.NEWPLAYER];
+const HANDLE_EVENTS= [BROADCAST.MESSAGE, BROADCAST.NEWPLAYER, BROADCAST.MOVEPLAYER];
 
 @Injectable({
 	providedIn: "root"
@@ -60,7 +60,7 @@ export class GameService {
 	public getStatus() {
 	}
 
-	private dispathEvent(message: WSMessage) {
+	private dispatchEvent(message: WSMessage) {
 		switch (message.event) {
 			case BROADCAST.MESSAGE:
 				console.log("------- ", message.data.content);
@@ -88,6 +88,6 @@ export class GameService {
 
 	private initSocket(nickName: string) {
 		this.mysocket= this.websocketService.initSocket(nickName, HANDLE_EVENTS);
-		this.mysocket.subscribe(msg => this.dispathEvent(msg));
+		this.mysocket.subscribe(msg => this.dispatchEvent(msg));
 	}
 }
