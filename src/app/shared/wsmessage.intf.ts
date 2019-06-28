@@ -1,7 +1,7 @@
 export interface WSMessage {
 	event: string;
 	data: {
-		client: any,
+		sender: any,
 		content: any,
 	};
 }

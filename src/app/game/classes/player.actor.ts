@@ -1,31 +1,46 @@
-import { Actor, Engine, CollisionType, Input, Vector, PostCollisionEvent, SpriteSheet, PostUpdateEvent } from "excalibur";
+import { Actor, Engine, CollisionType, Input, Vector, PostCollisionEvent, SpriteSheet } from "excalibur";
 import { Config } from "../config.dict";
 import { Resources } from "../resources/resources";
+import { Subject } from "rxjs";
 
+export interface IPlayerMove {
+	id: number;
+	pos: Vector;
+}
 
 export class Player extends Actor {
 	private _id: number;
-	private _lastPos: Vector= new Vector(0, 0);
+	// private _lastPos: Vector= new Vector(0, 0);
+	public pos$: Subject<IPlayerMove>= new Subject<IPlayerMove>();
 
-	constructor(x, y, id: number) {
+	constructor(x, y, playerRezID: number) {
 		super(x, y, Config.playerWidth, Config.playerHeight);
-		this._id= id;
+		this._id= playerRezID;
 	}
 
 	public onInitialize(engine: Engine) {
-
 		this._setupDrawing(engine);
-		if(this._id===1) {
-			this._setupInputs(engine);
-		}
 		this._setupCollision();
-
 	}
 
-	public onPostUpdate(engine: Engine, delta: number) {
-		if(!this.pos.equals(this._lastPos)) {
-			this._lastPos.setTo(this.pos.x, this.pos.y);
+	public onPostDraw(_ctx: CanvasRenderingContext2D, _delta: number): void {
+		if(!this.pos.equals(this.oldPos)) {
+			// this._lastPos.setTo(this.pos.x, this.pos.y);
+			this.pos$.next({id: this.id, pos: this.pos});
+			// console.log("onPostUpdate", {id: this.id, pos: this.pos});
 		}
+	}
+
+	// public onPostUpdate(engine: Engine, delta: number) {
+	// 	if(!this.pos.equals(this.oldPos)) {
+	// 		// this._lastPos.setTo(this.pos.x, this.pos.y);
+	// 		this.pos$.next({id: this.id, pos: this.pos});
+	// 		console.log("onPostUpdate", {id: this.id, pos: this.pos});
+	// 	}
+	// }
+
+	public setAsMainPlayer(engine: Engine) {
+		this._setupInputs(engine);
 	}
 
 	private _setupCollision( ) {

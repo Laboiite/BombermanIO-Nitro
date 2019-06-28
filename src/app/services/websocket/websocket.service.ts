@@ -1,10 +1,8 @@
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
-import { Observable } from "rxjs";
 import { filter } from "rxjs/operators";
 import * as uuid from "uuid";
-import { BROADCAST } from "src/app/shared/broadcast.enum";
 import { WSMessage } from "src/app/shared/wsmessage.intf";
 
 
@@ -14,12 +12,12 @@ import { WSMessage } from "src/app/shared/wsmessage.intf";
 export class WebsocketService {
 
 	public socket: WebSocketSubject<WSMessage>;
-	public client;
+	public sender;
 	constructor() { }
 
 	public initSocket(nickName: string, handleEvents: string[]) {
 		this.socket = webSocket<WSMessage>(environment.serverWs);
-		this.client = { id: uuid.v4(), nickName: nickName };
+		this.sender = { id: uuid.v4(), nickName: nickName };
 		console.log("--------- Socket initialized !");
 		return this.socket.pipe(filter(msg => handleEvents.includes(msg.event))
 		);
@@ -30,10 +28,10 @@ export class WebsocketService {
 		console.log("--------- Socket closed !");
 	}
 
-	public send(message: string, content: string): void {
+	public send(message: string, content: any): void {
 		this.socket.next({
 			event: message,
-			data: { client: this.client, content: content },
+			data: { sender: this.sender, content: JSON.stringify(content) },
 		});
 	}
 }
