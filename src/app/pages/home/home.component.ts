@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
 	//
 	ngOnInit() {
 		this.setForm();
+		this.getGames();
 	}
 
 	/**
@@ -29,7 +30,6 @@ export class HomeComponent implements OnInit {
 	 */
 	public createGame() {
 		this.gameService.createGame(this.form.controls.nickName.value, this.form.controls.gameNameToCreate.value);
-		// this.initWS();
 		this.router.navigate(["/game"]);
 	}
 	/**
@@ -39,13 +39,16 @@ export class HomeComponent implements OnInit {
 		this.gameService.joinGame(this.form.controls.nickName.value, this.form.controls.gameNameToJoin.value);
 		this.router.navigate(["/game"]);
 	}
+
+
 	/**
-	 * testWS()
+	 * getGames()
 	 * Test of our websocket conneciton
 	 */
-	public initWS() {
-		// this.gameService.enterGame(this.form.controls.nickName.value);
+	public getGames() {
+		this.gameService.getGames();
 	}
+
 	/**
 	 * closeWS()
 	 * Test of our websocket conneciton
@@ -70,14 +73,6 @@ export class HomeComponent implements OnInit {
 		this.gameService.getStatus();
 	}
 	/**
-	 * indicateReady()
-	 * Indicate if we're ready or not
-	 */
-	public indicateReady() {
-		console.log("check if ready : ", this.form.controls.isReady.value);
-		// this.gameService.sendTest(this.form.controls.message.value, this.form.controls.nickName.value, this.form.controls.gateway.value);
-	}
-	/**
 	 * setForm()
 	 * Test of our websocket conneciton
 	 */
@@ -93,6 +88,14 @@ export class HomeComponent implements OnInit {
 		});
 	}
 
+	/**
+	 * indicateReady()
+	 * Indicate if we're ready or not
+	 */
+	public indicateReady() {
+		console.log("check if ready : ", this.form.controls.isReady.value);
+		// this.gameService.sendTest(this.form.controls.message.value, this.form.controls.nickName.value, this.form.controls.gateway.value);
+	}
 
 
 }

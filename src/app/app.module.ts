@@ -11,13 +11,15 @@ import { BaseModule } from "./modules/base.module";
 import { AppHeaderComponent } from "./components/app-header/app-header.component";
 import { GameComponent } from "./pages/game/game.component";
 import { ProviderModule } from "./modules/providers.module";
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		HomeComponent,
 		AppHeaderComponent,
-		GameComponent
+		GameComponent,
+		LoginComponent
 	],
 	imports: [
 		BrowserModule,

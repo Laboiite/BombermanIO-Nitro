@@ -26,7 +26,7 @@ export class GameService {
 	public createGame(nickName: string, gameName: string) {
 		this.currentPlayerName= nickName;
 		this.currentGameName= gameName;
-		this.initSocket(nickName);
+		// this.initSocket(nickName);
 		this.currentGame = new BombermanGame();
 		this.websocketService.send(MESSAGE.CREATE_GAME, gameName);
 	}
@@ -38,9 +38,17 @@ export class GameService {
 	public joinGame(nickName: string, gameName: string) {
 		this.currentPlayerName= nickName;
 		this.currentGameName= gameName;
-		this.initSocket(nickName);
 		this.currentGame = new BombermanGame(2);
+		// this.initSocket(nickName);
 		this.websocketService.send(MESSAGE.JOIN_GAME, gameName);
+	}
+
+	/**
+	 * getGames()
+	 * Returns the list of games
+	 */
+	public getGames() {
+		this.websocketService.send(MESSAGE.GET_GAMES, "");
 	}
 
 	/**
@@ -86,7 +94,7 @@ export class GameService {
 		}
 	}
 
-	private initSocket(nickName: string) {
+	public initSocket(nickName: string) {
 		this.mysocket= this.websocketService.initSocket(nickName, HANDLE_EVENTS);
 		this.mysocket.subscribe(msg => this.dispatchEvent(msg));
 	}
