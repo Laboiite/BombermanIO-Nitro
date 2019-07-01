@@ -28,7 +28,7 @@ export class GameService {
 		this.currentGameName= gameName;
 		// this.initSocket(nickName);
 		this.currentGame = new BombermanGame();
-		this.websocketService.send(MESSAGE.CREATE_GAME, gameName);
+		this.websocketService.send(MESSAGE.CREATE_GAME, {name: gameName});
 	}
 
 	/**
@@ -40,7 +40,7 @@ export class GameService {
 		this.currentGameName= gameName;
 		this.currentGame = new BombermanGame(2);
 		// this.initSocket(nickName);
-		this.websocketService.send(MESSAGE.JOIN_GAME, gameName);
+		this.websocketService.send(MESSAGE.JOIN_GAME, {name: gameName});
 	}
 
 	/**
@@ -48,7 +48,7 @@ export class GameService {
 	 * Returns the list of games
 	 */
 	public getGames() {
-		this.websocketService.send(MESSAGE.GET_GAMES, "");
+		this.websocketService.send(MESSAGE.GET_GAMES);
 	}
 
 	/**
@@ -57,7 +57,7 @@ export class GameService {
 	 */
 	public addPlayer(gameName: string) {
 		if (this.currentGame) {
-			this.websocketService.send(MESSAGE.NEW_PLAYER, gameName);
+			this.websocketService.send(MESSAGE.NEW_PLAYER, {name: gameName});
 		}
 	}
 

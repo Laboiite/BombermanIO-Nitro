@@ -28,10 +28,10 @@ export class WebsocketService {
 		console.log("--------- Socket closed !");
 	}
 
-	public send(message: string, content: any): void {
+	public send(message: string, content: any= null): void {
 		this.socket.next({
 			event: message,
-			data: { sender: this.sender, content: JSON.stringify(content) },
+			data: { sender: this.sender, content: content },
 		});
 	}
 }
