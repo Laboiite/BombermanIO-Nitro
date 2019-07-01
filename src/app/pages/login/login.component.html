@@ -1,0 +1,8 @@
+<form [formGroup]="form">
+	<div style="text-align:center">
+		<mat-form-field>
+			<input matInput [placeholder]="'HOME.NICKNAME' | translate" formControlName="nickName">
+		</mat-form-field>
+		<button mat-raised-button (click)="navigateToHome()">{{"LOGIN.GO" | translate}}</button>
+	</div>
+</form>

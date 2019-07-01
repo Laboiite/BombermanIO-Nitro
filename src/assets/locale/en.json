@@ -25,6 +25,9 @@
         "FRENCH": "French",
         "ENGLISH": "English"
 	},
+	"LOGIN": {
+		"GO": "Let's GO!"
+	},
 	"HOME" : {
 		"NICKNAME": "Enter your nickname",
 		"GAMENAME_TO_CREATE": "Game's name to create",

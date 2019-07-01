@@ -25,6 +25,9 @@
 		"FRENCH": "Français",
 		"ENGLISH": "Anglais"
 	},
+	"LOGIN" : {
+		"GO": "C'est parti!"
+	},
 	"HOME" : {
 		"NICKNAME": "Entrez votre pseudo",
 		"GAMENAME_TO_CREATE": "Nom de la partie à créer",
